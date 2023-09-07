@@ -1,6 +1,5 @@
-/* App.css */
 
-.chatapp {
+.username-form {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -9,40 +8,33 @@
     background-color: #f2f2f2;
   }
   
-  .chatapp ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    max-height: 70vh;
-    overflow-y: auto;
-  }
-  
-  .chatapp li {
+  .username-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px;
+    padding: 20px;
     background-color: #fff;
-    padding: 10px;
-    margin: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   }
   
-  .chatapp form {
-    display: flex;
-    flex-direction: row;
-    margin-top: 20px;
+  .username-form label {
+    font-size: 16px;
+    margin-bottom: 10px;
   }
   
-  .chatapp input[type="text"] {
-    flex: 1;
+  .username-form input[type="text"] {
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 16px;
+    margin-bottom: 20px;
   }
   
-  .chatapp button[type="submit"] {
+  .username-form button[type="submit"] {
     padding: 10px 20px;
-    margin-left: 10px;
     background-color: #007bff;
     color: #fff;
     border: none;
@@ -52,7 +44,7 @@
     transition: background-color 0.3s ease;
   }
   
-  .chatapp button[type="submit"]:hover {
+  .username-form button[type="submit"]:hover {
     background-color: #0056b3;
   }
   
