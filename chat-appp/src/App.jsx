@@ -1,12 +1,35 @@
+import React from 'react';
 import { createClient } from '@supabase/supabase-js';
 import { useEffect, useState } from 'react';
-import UsernameForm from './assets/user_registeration';
+import UsernameForm from './components/user_registeration';
 import './App.css';
-const supabase = createClient('https://vdhraxzuflqyqtpvgepw.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHJheHp1ZmxxeXF0cHZnZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM4NjU3MzUsImV4cCI6MjAwOTQ0MTczNX0.W93fdlzLq2qhm3x2fca9lrxObk1XJcBhdw5DiGifuyM');
+
+const supabaseUrl = 'https://vdhraxzuflqyqtpvgepw.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHJheHp1ZmxxeXF0cHZnZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM4NjU3MzUsImV4cCI6MjAwOTQ0MTczNX0.W93fdlzLq2qhm3x2fca9lrxObk1XJcBhdw5DiGifuyM'; 
+
+const supabase = createClient(supabaseUrl, supabaseKey, {
+  autoRefreshToken: true, // Enable auto token refresh
+  persistSession: true, // Enable session persistence
+  webSocketUrl: 'wss://vdhraxzuflqyqtpvgepw.supabase.co/socket', // Websocket URL
+})
 
 function ChatApp(){
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    fetchMessages();
+
+    const subscription = supabase.from('messages').on('INSERT', (payload) => {
+        setMessages((prevMessages) => [...prevMessages, payload.new]);
+      }).subscribe();
+
+    return () => {  
+      supabase.removeSubscription(subscription);
+    };
+  }, []);
 
   async function fetchMessages() {
     const { data: messages, error } = await supabase
@@ -18,23 +41,6 @@ function ChatApp(){
           else setMessages(messages);
   }
 
-  useEffect(() => {
-    // Fetch existing messages
-    fetchMessages();
-
-    // Subscribe to new messages
-    const subscription = supabase
-      .from('messages')
-      .on('INSERT', (payload) => {
-        setMessages((prevMessages) => [...prevMessages, payload.new]);
-      })
-      .subscribe();
-
-    return () => {
-      // Unsubscribe when the component unmounts
-      supabase.removeSubscription(subscription);
-    };
-  }, []);
 
   async function sendMessage(e) {
     e.preventDefault();
@@ -54,7 +60,13 @@ function ChatApp(){
     }
   }
 
-  if(username!='')
+  
+
+  if(username === ''){
+      return(<UsernameForm setUsername={setUsername} />)
+  }
+
+  else
   {
   return(
     <>
@@ -76,10 +88,7 @@ function ChatApp(){
     </>
     )
     }
-    else
-    {
-      return(<UsernameForm setUsername={setUsername} />)
-    }
+    
 }
 
 export default ChatApp;
