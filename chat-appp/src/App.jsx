@@ -7,27 +7,23 @@ import './App.css';
 const supabaseUrl = 'https://vdhraxzuflqyqtpvgepw.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHJheHp1ZmxxeXF0cHZnZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM4NjU3MzUsImV4cCI6MjAwOTQ0MTczNX0.W93fdlzLq2qhm3x2fca9lrxObk1XJcBhdw5DiGifuyM'; 
 
-const supabase = createClient(supabaseUrl, supabaseKey, {
-  autoRefreshToken: true, // Enable auto token refresh
-  persistSession: true, // Enable session persistence
-  webSocketUrl: 'wss://vdhraxzuflqyqtpvgepw.supabase.co/socket', // Websocket URL
-})
+const supabase = createClient(supabaseUrl, supabaseKey)
 
 function ChatApp(){
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [input, setInput] = useState('');
 
 
   useEffect(() => {
     fetchMessages();
 
-    const subscription = supabase.from('messages').on('INSERT', (payload) => {
+    const subscription = supabase.channel('messages').on('INSERT', (payload) => {
         setMessages((prevMessages) => [...prevMessages, payload.new]);
       }).subscribe();
 
     return () => {  
-      supabase.removeSubscription(subscription);
+      supabase.removeChannel(subscription);
     };
   }, []);
 
