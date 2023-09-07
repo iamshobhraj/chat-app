@@ -1,6 +1,6 @@
 import React from 'react';
 import { createClient } from '@supabase/supabase-js';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import UsernameForm from './components/user_registeration';
 import './App.css';
 
@@ -13,6 +13,7 @@ function ChatApp(){
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [input, setInput] = useState('');
+  const messagesListRef = useRef(null);
 
 
   useEffect(() => {
@@ -49,11 +50,19 @@ function ChatApp(){
       await supabase.from('messages').insert([
         { username: username, text: input.trim() },
       ]);
+      fetchMessages();
 
       setInput('');
+
+      if (messagesListRef.current) {
+        console.log("messagesListRef.current:", messagesListRef.current);
+        messagesListRef.current.scrollTop = messagesListRef.current.scrollHeight;
+      }
     } catch (error) {
       console.error('Error sending message:', error);
     }
+
+    
   }
 
   
@@ -67,7 +76,7 @@ function ChatApp(){
   return(
     <>
       <div className='chatapp'>
-        <ul>
+        <ul ref={messagesListRef}>
             {messages.map((message) => (
               <li key={message.id}>{message.text}</li>
             ))}
