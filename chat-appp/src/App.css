@@ -4,7 +4,7 @@
     flex-direction: column; 
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    height: 100svh;
     width: 100vw;
     background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.1)), url(sketches-gradient-doodle-logo-wallpaper.jpg);
     background-repeat: repeat-x;
