@@ -8,12 +8,12 @@ import './App.css';
 // const supabaseKey = process.env.superbaseKey;
 
 const supabaseUrl = 'https://vdhraxzuflqyqtpvgepw.supabase.co'
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHJheHp1ZmxxeXF0cHZnZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM4NjU3MzUsImV4cCI6MjAwOTQ0MTczNX0.W93fdlzLq2qhm3x2fca9lrxObk1XJcBhdw5DiGifuyM'; 
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHJheHp1ZmxxeXF0cHZnZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM4NjU3MzUsImV4cCI6MjAwOTQ0MTczNX0.W93fdlzLq2qhm3x2fca9lrxObk1XJcBhdw5DiGifuyM';
 
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
-function ChatApp(){
+function ChatApp() {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [input, setInput] = useState('');
@@ -23,23 +23,27 @@ function ChatApp(){
   useEffect(() => {
     fetchMessages();
 
-    const subscription = supabase.channel('messages').on('INSERT', (payload) => {
+    const subscription = supabase.channel('messages').on('postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+      }, (payload) => {
         setMessages((prevMessages) => [...prevMessages, payload.new]);
       }).subscribe();
 
-    return () => {  
+    return () => {
       supabase.removeChannel(subscription);
     };
   }, []);
 
   async function fetchMessages() {
     const { data: messages, error } = await supabase
-          .from('messages')
-          .select('*')
-          .order('timestamp', { ascending: true });
+      .from('messages')
+      .select('*')
+      .order('timestamp', { ascending: true });
 
-          if (error) console.error('Error fetching messages:', error);
-          else setMessages(messages);
+    if (error) console.error('Error fetching messages:', error);
+    else setMessages(messages);
   }
 
 
@@ -54,50 +58,48 @@ function ChatApp(){
       await supabase.from('messages').insert([
         { username: username, text: input.trim() },
       ]);
-      fetchMessages();
       
+
       setInput('');
 
       if (messagesListRef.current) {
-        console.log("messagesListRef.current:", messagesListRef.current);
         messagesListRef.current.scrollTop = messagesListRef.current.scrollHeight;
       }
     } catch (error) {
       console.error('Error sending message:', error);
     }
 
-    
+
   }
 
-  
 
-  if(username === ''){
-      return(<UsernameForm setUsername={setUsername} />)
+
+  if (username === '') {
+    return (<UsernameForm setUsername={setUsername} />)
   }
 
-  else
-  {
-  return(
-    <>
-      <div className='chatapp'>
-        <ul ref={messagesListRef}>
+  else {
+    return (
+      <>
+        <div className='chatapp'>
+          <ul ref={messagesListRef}>
             {messages.map((message) => (
               <li key={message.id}><span>{message.username}</span>: {message.text}</li>
             ))}
-        </ul>
-        <form onSubmit={sendMessage}>
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
-        <button type="submit">Send</button>
-        </form>
-      </div>
-    </>
+          </ul>
+          <form onSubmit={sendMessage}>
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+            />
+            <button type="submit">Send</button>
+          </form>
+        </div>
+      </>
     )
-    }
-    
+  }
+
 }
 
 export default ChatApp;
