@@ -5,7 +5,7 @@
     align-items: center;
     justify-content: center;
     height: 100dvh;
-    width: 100vw;
+    width: 100dvw;
     background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.1)), url(sketches-gradient-doodle-logo-wallpaper.jpg);
     background-repeat: repeat-x;
     background-size: 1900px 1000px;
