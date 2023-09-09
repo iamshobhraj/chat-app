@@ -6,7 +6,9 @@
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.6)), url(sketches-gradient-doodle-logo-wallpaper.jpg);
+    background-repeat: repeat;
+    background-size: 100vw 100vh;
   }
   
   .chatapp ul {
@@ -25,7 +27,7 @@
     margin: 10px;
     width: fit-content;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
   
   .chatapp form {
@@ -58,3 +60,6 @@
     background-color: #0056b3;
   }
   
+  .chatapp li span{
+    color: #2b860c;
+  }

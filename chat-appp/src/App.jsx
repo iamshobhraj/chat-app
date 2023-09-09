@@ -82,7 +82,7 @@ function ChatApp(){
       <div className='chatapp'>
         <ul ref={messagesListRef}>
             {messages.map((message) => (
-              <li key={message.id}>{message.text}</li>
+              <li key={message.id}><span>{message.username}</span>: {message.text}</li>
             ))}
         </ul>
         <form onSubmit={sendMessage}>
