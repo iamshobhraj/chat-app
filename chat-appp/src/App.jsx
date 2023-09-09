@@ -14,11 +14,12 @@ function ChatApp() {
   const [messages, setMessages] = useState([]);
   const [username, setUsername] = useState('');
   const [input, setInput] = useState('');
-  const messagesListRef = useRef(null);
+  const bottomRef = useRef();
 
 
   useEffect(() => {
     fetchMessages();
+    scrollToBottom();
 
     const subscription = supabase.channel('messages').on('postgres_changes',
       {
@@ -32,6 +33,10 @@ function ChatApp() {
       supabase.removeChannel(subscription);
     };
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages])
 
   async function fetchMessages() {
     const { data: messages, error } = await supabase
@@ -59,15 +64,20 @@ function ChatApp() {
 
       setInput('');
 
-      if (messagesListRef.current) {
-        messagesListRef.current.scrollBottom = messagesListRef.current.scrollHeight;
-      }
     } catch (error) {
       console.error('Error sending message:', error);
     }
 
-
   }
+
+  const scrollToBottom = () => {
+    if (bottomRef.current) {
+      bottomRef.current.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
 
 
 
@@ -79,10 +89,11 @@ function ChatApp() {
     return (
       <>
         <div className='chatapp'>
-          <ul ref={messagesListRef}>
+          <ul>
             {messages.map((message) => (
               <li key={message.id}><span>{message.username}</span>: {message.text}</li>
             ))}
+            <div ref={bottomRef} className="list-bottom"></div>
           </ul>
           <form onSubmit={sendMessage}>
             <input

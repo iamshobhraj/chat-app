@@ -4,8 +4,8 @@
     flex-direction: column; 
     align-items: center;
     justify-content: center;
-    height: 100dvh;
-    width: 100dvw;
+    height: 100vh;
+    width: 100vw;
     background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.1)), url(sketches-gradient-doodle-logo-wallpaper.jpg);
     background-repeat: repeat-x;
     background-size: 1900px 1000px;
@@ -15,10 +15,10 @@
     list-style: none;
     padding: 0;
     margin: 0;
-    width: 100%;
+    width: 100vw;
     max-height: 70vh;
     overflow-y: auto;
-    padding-left: 6%;
+    padding-left: 0;
   }
   
   .chatapp li {
