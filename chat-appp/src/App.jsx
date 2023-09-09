@@ -7,9 +7,6 @@ import './App.css';
 const supabaseUrl = import.meta.env.VITE_APP_supabaseUrl;
 const supabaseKey = import.meta.env.VITE_APP_supabaseKey;
 
-// const supabaseUrl = 'https://vdhraxzuflqyqtpvgepw.supabase.co'
-// const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZkaHJheHp1ZmxxeXF0cHZnZXB3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTM4NjU3MzUsImV4cCI6MjAwOTQ0MTczNX0.W93fdlzLq2qhm3x2fca9lrxObk1XJcBhdw5DiGifuyM';
-
 
 const supabase = createClient(supabaseUrl, supabaseKey)
 
