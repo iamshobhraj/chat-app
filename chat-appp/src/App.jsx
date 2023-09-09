@@ -55,7 +55,7 @@ function ChatApp(){
         { username: username, text: input.trim() },
       ]);
       fetchMessages();
-
+      
       setInput('');
 
       if (messagesListRef.current) {
