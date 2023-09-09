@@ -6,7 +6,7 @@
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-image: linear-gradient(rgba(255,255,255,.6), rgba(255,255,255,.6)), url(sketches-gradient-doodle-logo-wallpaper.jpg);
+    background-image: linear-gradient(rgba(255,255,255,.1), rgba(255,255,255,.1)), url(sketches-gradient-doodle-logo-wallpaper.jpg);
     background-repeat: repeat-x;
     background-size: 1900px 1000px;
   }
@@ -22,12 +22,12 @@
   }
   
   .chatapp li {
-    background-color: rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.6);
     padding: 10px;
     margin: 10px;
     width: fit-content;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
   }
   
   .chatapp form {
@@ -62,4 +62,5 @@
   
   .chatapp li span{
     color: #2b860c;
+    font-weight: bold;
   }
